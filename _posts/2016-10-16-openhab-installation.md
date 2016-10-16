@@ -417,16 +417,17 @@ Need to create two calenders
   - openhab, as http://192.168.1.55:5232/openhab/openhab.ics/
   - history, as http://192.168.1.55:5232/openhab/history.ics/
 
-===== UPS Network =====
+### UPS Network
 
 Information available:
 
-<code>
+```
 Storology> upsc ups
-</code>
+```
 
 Example output:
-<code>
+
+```
 battery.charge: 100
 battery.charge.low: 10
 battery.charge.warning: 50
@@ -467,29 +468,23 @@ ups.status: OL
 ups.timer.reboot: 0
 ups.timer.shutdown: -1
 ups.vendorid: 051d
-</code>
+```
 
-===== Image Refresh =====
+### Image Refresh
 
 Refreshing an image periodically (every second)
 
-Define the following in the sitemap
+Define the following in the sitemap:
 
+```
 Remote image:
 Image url="http://192.168.1.55/jpg/image.jpg" refresh=1000
 
 Locale image:
 Image url="/jpg/image.jpg" refresh=1000
+```
+The image "jpg/image.jpg" needs to be located in `$OPENHAB_ROOT/webapps/` folder.
 
-
-===== Dropbox Integration =====
+### Dropbox Integration
 
 See https://github.com/openhab/openhab/wiki/Dropbox-IO
-
-The image "jpg/image.jpg" needs to be located in $OPENHAB_ROOT/webapps/ folder.
-
-===== Installing on emonPi =====
-
-==== Install samba ====
-
-see [[openhab|Installing openhab on Raspberry PI]]
