@@ -1,9 +1,9 @@
 ---
 layout: post
-title: emonPi installation
+title: emonPi Installation
 ---
 
-#  emonPi installation
+The modifications I used to build an emonPi disk.
 
 I plan to utilise my [emonPi](https://openenergymonitor.org/emon/) as the basis of my home automation system. I have struggled with the read-only configuration of the standard build so decided to build from stratch. Not as difficult given instructions at https://github.com/openenergymonitor/emonpi/blob/master/docs/SD-card-build.md. I have started the build using NOOBS LITE Version 2.0.0, on October 15, 2016. However, there were some issues which are captured here:
 
