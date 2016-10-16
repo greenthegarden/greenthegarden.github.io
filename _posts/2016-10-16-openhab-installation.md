@@ -3,6 +3,7 @@ layout: post
 title: openHAB Installation for Raspberry PI
 ---
 
+I run openHAB on a Raspberry Pi as the basis of my home automation using the following configuration.
 
 # Other Packages
 

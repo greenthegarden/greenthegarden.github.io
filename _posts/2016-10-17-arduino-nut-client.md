@@ -3,8 +3,6 @@ layout: post
 title: Arduino NUT Client
 ---
 
-# Arduino NUT Client
-
 The use of an Arduino is a great way to monitor and control a battery. I have, not however, come across a NUT implementation to run on an Arduino.
 
 # Network UPS Tools
