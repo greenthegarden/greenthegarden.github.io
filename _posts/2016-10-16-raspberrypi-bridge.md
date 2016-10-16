@@ -13,7 +13,7 @@ A useful capability is to use a Raspberry Pi as a WiFi to Ethernet bridge in ord
   * a USB WiFi dongle, such the Raspberry Pi [USB WiFi dongle](https://www.raspberrypi.org/products/usb-wifi-dongle/), or
   * a HAT, such as the [Redbear IoT pHAT](https://redbear.cc/product/rpi/iot-phat.html).
 * A configured WiFi router.
-* An SD card to install the software on with a minimum capacity of 2GB.
+* An SD card with a minimum capacity of 2GB.
 
 # Initial Software Build
 
