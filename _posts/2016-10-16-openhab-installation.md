@@ -7,18 +7,26 @@ I run [openHAB](http://www.openhab.org/) on a [Raspberry Pi](https://www.raspber
 
 # Other Packages
 
-## Mosquitto
-
-See
+In order to best utilise openHAB the following additional packages are utilised.
 
 ## Samba
 
-
 Install Samba to enable editing of configurations via an external computer
+
+### Installation
 
 ```
 sudo apt-get install samba samba-common-bin
 ```
+
+### Configuration
+
+
+
+## Mosquitto
+
+See
+
 
 
 ## mySQL
