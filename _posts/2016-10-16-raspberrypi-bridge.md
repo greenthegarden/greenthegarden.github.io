@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Raspberry Pi Bridge
+description: Instructions to utilise a Raspberry Pi as a WiFi to Ethernet bridge
+categories: Raspberry Pi, network, WiFi, Ethernet
 ---
 
 A useful capability is to use a Raspberry Pi as a WiFi to Ethernet bridge in order to connect wired devices when a router is not conveniently located.

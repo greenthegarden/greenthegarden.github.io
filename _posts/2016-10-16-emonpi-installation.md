@@ -1,6 +1,8 @@
 ---
 layout: post
 title: emonPi Installation
+description: Building an emonPi disk
+categories: emonPi, energy, monitoring, IoT
 ---
 
 The modifications I used to build an emonPi disk.

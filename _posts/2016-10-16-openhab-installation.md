@@ -2,7 +2,7 @@
 layout: post
 title: openHAB Installation
 description: Installing and configuring openHAB
-categories: beginner
+categories: openHAB, automation, IoT
 ---
 
 I run [openHAB](http://www.openhab.org/) on a [Raspberry Pi](https://www.raspberrypi.org/) as the basis of my home automation using the following configuration.
