@@ -9,11 +9,11 @@ I run [openHAB](http://www.openhab.org/) on a [Raspberry Pi](https://www.raspber
 
 # Other Packages
 
-In order to best utilise openHAB the following additional packages are utilised.
+In order to support the openHAB configuration I have implemented the following additional packages are utilised.
 
 ## Samba
 
-Install Samba to enable editing of configurations via an external computer.
+[Samba](https://www.samba.org/) is utilised to make it easier to edit openHAB configurations via an external computer.
 
 ### Installation
 
@@ -23,7 +23,7 @@ sudo apt-get install samba samba-common-bin
 
 ### Configuration
 
-Edit the file `/etc/samba/smb.conf` to make the following changes
+Edit the file `/etc/samba/smb.conf` to make the following changes.
 
 #### Enable wins support
 
@@ -31,16 +31,20 @@ Change `# wins support = no` to `wins support = yes`.
 
 #### Enable symbolic link support
 
-Add the following lines
+Add the following lines, under `[global]`
 
 ```
 follow symlinks = yes
 wide links = yes
 ```
 
+Comment out (place `;` at start of line) all references to printers.
+
 #### Share openhab folders
 
-Add the following lines to share pi home folder
+Add the following lines to the end of the file to share the specified directories.
+
+Share pi home directory:
 
 ```
 [pi Home]
@@ -55,7 +59,7 @@ directory mask=0777
 public=no
 ```
 
-Add the following lines to share openhab folders
+Share openhab related directories:
 
 ```
 [OpenHAB Home]
@@ -96,6 +100,8 @@ sudo /bin/systemctl restart smbd.service
 
 #### Test shared drive
 
+On Ubuntu use `Files -> File -> Connect to Server...` and the address `smb://192.168.2.90`. Leave domain as `WORKGROUP` in dialog window.
+
 On Mac use `Finder -> Go -> Connect to Server` and the address `smb://openhab@raspberrypi.local`.
 
 
@@ -103,9 +109,45 @@ On Mac use `Finder -> Go -> Connect to Server` and the address `smb://openhab@ra
 
 See
 
+## Radicale
 
+The [Radicale Project](http://radicale.org/) is a complete CalDAV (calendar) and CardDAV (contact) server solution and is utilised to set recurring events for openHAB.
 
-## mySQL
+### Installation
+
+```
+sudo apt-get install radicale
+```
+
+### Configuration
+
+A good guide to configure radicale is http://jonathantutorial.blogspot.com.au/2014/10/how-to-set-up-radicale.html
+
+#### Run as daemon
+
+Open the file `/etc/radicale/config` and change `#daemon = False` to `daemon = True`.
+
+To have radicale automatically start open the file `/etc/default/radicale` and uncomment the line `#ENABLE_RADICALE=yes`.
+
+To start radicale use
+
+```
+sudo systemctl start radicale.service
+```
+
+Install apache2-utils to manage users and passwords using
+
+```
+sudo apt-get install apache2-utils
+```
+
+Need to create two calenders
+  - openhab, as http://192.168.1.55:5232/openhab/openhab.ics/
+  - history, as http://192.168.1.55:5232/openhab/history.ics/
+
+## MySQL
+
+[MySQL](http://www.mysql.com/) is utilised as a support the capturing of data in order to enable post-processing.
 
 ### Installation
 
@@ -115,14 +157,33 @@ sudo apt-get install mysql-server python-mysqldb
 
 Will be required to set a root password during the installation.
 
+### Configuration
 
-## Radicale
-
-The [Radicale Project](http://radicale.org/) is a complete CalDAV (calendar) and CardDAV (contact) server solution.
+Connect to mySQL server using
 
 ```
-sudo apt-get install radicale
+mysql -u root -p
 ```
+
+Create a new database for openHAB
+
+```
+CREATE DATABASE openhab;
+```
+
+Create an 'openhab' user with password 'openhab'
+
+```
+CREATE USER 'openhab'@'localhost' IDENTIFIED BY 'openhab';
+```
+
+Set permissions for 'openhab' user to access 'openhab' database
+
+```
+GRANT ALL PRIVILEGES ON openhab . * TO 'openhab'@'localhost';
+```
+
+Configure openHAB to use mysql persistence.
 
 ##  Network UPS tools
 
@@ -365,73 +426,9 @@ sudo apt-get install openhab-addon-persistence-rrd4j
 ```
 
 
-## Configure MySQL
-
-Connect to mySQL server using
-
-```
-mysql -u root -p
-```
-
-Create a new database for openHAB
-
-```
-CREATE DATABASE openhab;
-```
-
-Create an 'openhab' user with password 'openhab'
-
-```
-CREATE USER 'openhab'@'localhost' IDENTIFIED BY 'openhab';
-```
-
-Set permissions for 'openhab' user to access 'openhab' database
-
-```
-GRANT ALL PRIVILEGES ON openhab . * TO 'openhab'@'localhost';
-```
-
-Configure openhab to use mysql persistence.
-
-## Configure Radicale
-
-A good guide to configure radicale is http://jonathantutorial.blogspot.com.au/2014/10/how-to-set-up-radicale.html
-
-Open the configuration file `/etc/radicale/config` and change the following:
 
 
-```
-#daemon = False
-```
 
-to
-
-```
-daemon = True
-```
-
-To have radicale automatically start open the file `/etc/default/radicale` and uncomment the line:
-
-
-```
-#ENABLE_RADICALE=yes
-```
-
-To start radicale use
-
-```
-sudo systemctl start radicale.service
-```
-
-Install apache2-utils to manage users and passwords using
-
-```
-sudo apt-get install apache2-utils
-```
-
-Need to create two calenders
-  - openhab, as http://192.168.1.55:5232/openhab/openhab.ics/
-  - history, as http://192.168.1.55:5232/openhab/history.ics/
 
 ### UPS Network
 
