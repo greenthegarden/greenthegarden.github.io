@@ -1,6 +1,8 @@
 ---
 layout: post
-title: openHAB Installation for Raspberry PI
+title: openHAB Installation
+description: Installing and configuring openHAB
+categories: beginner
 ---
 
 I run [openHAB](http://www.openhab.org/) on a [Raspberry Pi](https://www.raspberrypi.org/) as the basis of my home automation using the following configuration.
@@ -21,21 +23,11 @@ sudo apt-get install samba samba-common-bin
 
 ### Configuration
 
-Enit the file `/etc/samba/smb.conf` to make the following changes
+Edit the file `/etc/samba/smb.conf` to make the following changes
 
 #### Enable wins support
 
-Change
-
-```
-# wins support = no
-```
-
-to
-
-```
-wins support = yes
-```
+Change `# wins support = no` to `wins support = yes`.
 
 #### Enable symbolic link support
 
@@ -48,11 +40,26 @@ wide links = yes
 
 #### Share openhab folders
 
+Add the following lines to share pi home folder
+
+```
+[pi Home]
+comment= pi Home
+path=/home/pi
+valid users = @pi
+browseable=Yes
+writeable=Yes
+only guest=no
+create mask=0777
+directory mask=0777
+public=no
+```
+
 Add the following lines to share openhab folders
 
 ```
 [OpenHAB Home]
-comment= OpenHAB Home
+comment= openHAB Home
 path=/usr/share/openhab
 valid users = @pi @openhab
 browseable=Yes
@@ -63,7 +70,7 @@ directory mask=0777
 public=no
 
 [OpenHAB Config]
-comment= OpenHAB Site Config
+comment= openHAB Site Config
 valid users = @pi @openhab
 path=/etc/openhab
 browseable=Yes
@@ -99,6 +106,8 @@ See
 
 
 ## mySQL
+
+### Installation
 
 ```
 sudo apt-get install mysql-server python-mysqldb
