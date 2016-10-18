@@ -11,7 +11,7 @@ In order to best utilise openHAB the following additional packages are utilised.
 
 ## Samba
 
-Install Samba to enable editing of configurations via an external computer
+Install Samba to enable editing of configurations via an external computer.
 
 ### Installation
 
@@ -21,6 +21,75 @@ sudo apt-get install samba samba-common-bin
 
 ### Configuration
 
+Enit the file `/etc/samba/smb.conf` to make the following changes
+
+#### Enable wins support
+
+Change
+
+```
+# wins support = no
+```
+
+to
+
+```
+wins support = yes
+```
+
+#### Enable symbolic link support
+
+Add the following lines
+
+```
+follow symlinks = yes
+wide links = yes
+```
+
+#### Share openhab folders
+
+Add the following lines to share openhab folders
+
+```
+[OpenHAB Home]
+comment= OpenHAB Home
+path=/usr/share/openhab
+valid users = @pi @openhab
+browseable=Yes
+writeable=Yes
+only guest=no
+create mask=0777
+directory mask=0777
+public=no
+
+[OpenHAB Config]
+comment= OpenHAB Site Config
+valid users = @pi @openhab
+path=/etc/openhab
+browseable=Yes
+writeable=Yes
+only guest=no
+create mask=0777
+directory mask=0777
+public=no
+```
+
+Set passwords for pi and openhab user
+
+```
+sudo smbpasswd -a pi
+sudo smbpasswd -a openhab
+```
+
+Restart samba
+
+```
+sudo /bin/systemctl restart smbd.service
+```
+
+#### Test shared drive
+
+On Mac use `Finder -> Go -> Connect to Server` and the address `smb://openhab@raspberrypi.local`.
 
 
 ## Mosquitto
@@ -286,77 +355,6 @@ sudo apt-get install openhab-addon-persistence-mysql
 sudo apt-get install openhab-addon-persistence-rrd4j
 ```
 
-### Configure Samba
-
-Enit the file `/etc/samba/smb.conf` to make the following changes
-
-
-#### Enable wins support
-
-Change
-
-```
-# wins support = no
-```
-
-to
-
-```
-wins support = yes
-```
-
-#### Enable symbolic link support
-
-Add the following lines
-
-```
-follow symlinks = yes
-wide links = yes
-```
-
-#### Share openhab folders
-
-Add the following lines to share openhab folders
-
-```
-[OpenHAB Home]
-comment= OpenHAB Home
-path=/usr/share/openhab
-valid users = @pi @openhab
-browseable=Yes
-writeable=Yes
-only guest=no
-create mask=0777
-directory mask=0777
-public=no
-
-[OpenHAB Config]
-comment= OpenHAB Site Config
-valid users = @pi @openhab
-path=/etc/openhab
-browseable=Yes
-writeable=Yes
-only guest=no
-create mask=0777
-directory mask=0777
-public=no
-```
-
-Set password for openhab user
-
-```
-sudo smbpasswd -a openhab
-```
-
-Restart samba
-
-```
-sudo /bin/systemctl restart smbd.service
-```
-
-#### Test shared drive
-
-On Mac use `Finder -> Go -> Connect to Server` and the address `smb://openhab@raspberrypi.local`.
 
 ## Configure MySQL
 

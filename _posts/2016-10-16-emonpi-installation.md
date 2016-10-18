@@ -21,4 +21,4 @@ I plan to utilise my [emonPi](https://openenergymonitor.org/emon/) as the basis 
 * For Section 15, used instructions for Java 8 for openHAB installation.
 
 
-See [openHAB install](_posts/2016-10-16-openhab-installation.md) for next steps.
+See ![openHAB install](_posts/2016-10-16-openhab-installation.md) for next steps.
