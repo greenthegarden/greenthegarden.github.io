@@ -7,13 +7,72 @@ categories: openHAB, automation, IoT
 
 I run [openHAB](http://www.openhab.org/) on a [Raspberry Pi](https://www.raspberrypi.org/) as the basis of my home automation using the following configuration.
 
+## References
+
+I have found the following references to be particularly useful:
+  * [Getting Started with OpenHAB Home Automation on Raspberry Pi](http://www.makeuseof.com/tag/getting-started-openhab-home-automation-raspberry-pi/)
+  * [OpenHAB Beginner’s Guide Part 2: ZWave, MQTT, Rules and Charting](http://www.makeuseof.com/tag/openhab-beginners-guide-part-2-zwave-mqtt-rules-charting/)
+
+## Installation of runtime
+
+Add repository information
+
+```
+wget -qO - 'https://bintray.com/user/downloadSubjectPublicKey?username=openhab' |sudo apt-key add -
+echo "deb http://dl.bintray.com/openhab/apt-repo stable main" | sudo tee /etc/apt/sources.list.d/openhab.list
+sudo apt-get update
+```
+
+Install openHAB runtime
+
+```
+sudo apt-get install openhab-runtime
+```
+
+Statement at end of installation to automatically start
+
+```
+### NOT starting on installation, please execute the following statements to configure openHAB to start automatically using systemd
+ sudo /bin/systemctl daemon-reload
+ sudo /bin/systemctl enable openhab.service
+### You can start openhab by executing
+ sudo /bin/systemctl start openhab.service
+```
+
+To restart use
+
+```
+sudo /bin/systemctl restart openhab.service
+```
+
+Set group and owner to openhab (from root)
+
+```
+sudo chown -hR openhab:openhab /etc/openhab
+sudo chown -hR openhab:openhab /usr/share/openhab
+```
+
+## Installation of bindings
+
+Installation of bindings uses the following form
+
+```
+sudo apt-get install openhab-addon-${addon-type}-${addon-name}
+```
+
+To find the name of binding use
+
+```
+sudo apt-cache search openhab
+```
+
 # Other Packages
 
-In order to support the openHAB configuration I have implemented the following additional packages are utilised.
+Other packages are required to be installed to support the addition openHAB capabilities I utilise to support my openHAB implementation.
 
 ## Samba
 
-[Samba](https://www.samba.org/) is utilised to make it easier to edit openHAB configurations via an external computer.
+[Samba](https://www.samba.org/) is utilised to make it easier to edit openHAB configurations via the [openHAB designer](http://www.openhab.org/getting-started/downloads.html) application on external computers.
 
 ### Installation
 
@@ -105,34 +164,82 @@ On Ubuntu use `Files -> File -> Connect to Server...` and the address `smb://192
 On Mac use `Finder -> Go -> Connect to Server` and the address `smb://openhab@raspberrypi.local`.
 
 
-## Mosquitto
+## MQTT
 
-See
+I make significant use of [MQTT](http://mqtt.org/) in order to share data between the various components of my home automation systems. openHAB supports MQTT via the [MQTT binding](https://github.com/openhab/openhab/wiki/MQTT-Binding).
 
-## Radicale
+### Binding Installation
 
-The [Radicale Project](http://radicale.org/) is a complete CalDAV (calendar) and CardDAV (contact) server solution and is utilised to set recurring events for openHAB.
+```
+sudo apt-get install openhab-addon-binding-mqtt
+```
 
-### Installation
+### Mosquitto
+
+In order to utilise MQTT a broker is required, for which I use [Mosquitto](https://mosquitto.org/).
+
+#### Installation
+
+```
+sudo apt-get install mosquitto
+```
+
+### Configuration
+
+The configuration of the `<broker>` needs to be applied in the section `MQTT Transport` of the file `/etc/openhab/configurations/openhab.cfg` to configure the MQTT binding.
+
+If installing on emonpi:
+
+mqtt:emonpi.url=tcp://localhost:1883
+mqtt:emonpi.user=emonpi
+mqtt:emonpi.pwd=emonpimqtt2016
+mqtt:emonpi.qos=2
+mqtt:emonpi.retain=false
+
+### Use
+
+Make sure whatever has been defined for `<broker>` in the openHAB configuration file is reflected in the `items` files.
+
+## CalDAV events
+
+openHAB supports the triggering of parameters by events defined in CalDAV calendars via the [CalDAV binding](https://github.com/openhab/openhab/wiki/CalDAV). In addition to be able to record events within calendars via the CalDAV persistence binding.
+
+### Binding Installation
+
+```
+sudo apt-get install openhab-addon-binding-caldav-command
+sudo apt-get install openhab-addon-binding-caldav-personal
+sudo apt-get install openhab-addon-io-caldav
+sudo apt-get install openhab-addon-persistence-caldav
+
+```
+
+###Radicale
+
+In order to utilise the CalDAV bindings a compible CAlDAV sercver is required for which I have utilised [Radicale Project](http://radicale.org/).
+
+#### Installation
 
 ```
 sudo apt-get install radicale
 ```
 
-### Configuration
+#### Configuration
 
 A good guide to configure radicale is http://jonathantutorial.blogspot.com.au/2014/10/how-to-set-up-radicale.html
 
-#### Run as daemon
+##### Run as daemon
 
 Open the file `/etc/radicale/config` and change `#daemon = False` to `daemon = True`.
 
 To have radicale automatically start open the file `/etc/default/radicale` and uncomment the line `#ENABLE_RADICALE=yes`.
 
-To start radicale use
+To start radicale use (does not work!!)
 
 ```
-sudo systemctl start radicale.service
+sudo /bin/systemctl daemon-reload
+sudo /bin/systemctl enable radicale.service
+sudo /bin/systemctl start radicale.service
 ```
 
 Install apache2-utils to manage users and passwords using
@@ -141,9 +248,16 @@ Install apache2-utils to manage users and passwords using
 sudo apt-get install apache2-utils
 ```
 
+#### Calender creation
+
 Need to create two calenders
   - openhab, as http://192.168.1.55:5232/openhab/openhab.ics/
   - history, as http://192.168.1.55:5232/openhab/history.ics/
+
+### Configuration
+
+
+### Use
 
 ## MySQL
 
@@ -345,81 +459,21 @@ sudo cp ~/sigar-raspbian/lib/* /usr/share/openhab/lib
 ```
 
 
-## OpenHAB
 
-Sources:
-  * [Getting Started with OpenHAB Home Automation on Raspberry Pi](http://www.makeuseof.com/tag/getting-started-openhab-home-automation-raspberry-pi/)
-  * [OpenHAB Beginner’s Guide Part 2: ZWave, MQTT, Rules and Charting](http://www.makeuseof.com/tag/openhab-beginners-guide-part-2-zwave-mqtt-rules-charting/)
-
-Add repository information
-
-```
-wget -qO - 'https://bintray.com/user/downloadSubjectPublicKey?username=openhab' |sudo apt-key add -
-echo "deb http://dl.bintray.com/openhab/apt-repo stable main" | sudo tee /etc/apt/sources.list.d/openhab.list
-sudo apt-get update
-```
-
-Install openHAB runtime
-
-```
-sudo apt-get install openhab-runtime
-```
-
-Statement at end of installation to automatically start
-
-```
-### NOT starting on installation, please execute the following statements to configure openHAB to start automatically using systemd
- sudo /bin/systemctl daemon-reload
- sudo /bin/systemctl enable openhab.service
-### You can start openhab by executing
- sudo /bin/systemctl start openhab.service
-```
-
-To restart use
-
-```
-sudo /bin/systemctl restart openhab.service
-```
-
-Set group and owner to openhab (from root)
-
-```
-sudo chown -hR openhab:openhab /etc/openhab
-sudo chown -hR openhab:openhab /usr/share/openhab
-```
-
-
-## Installation of bindings
-
-Installation of bindings uses the following form
-
-```
-sudo apt-get install openhab-addon-${addon-type}-${addon-name}
-```
-
-To find the name of binding use
-
-```
-sudo apt-cache search openhab
-```
 
 Use the following to install bindings for
 http, ntp, weather, persistence-logging, persistence-rrd4j, persistence-mysql, mqtt, systeminfo, astro, networkupstools, caldav, dropbox
 
 ```
 sudo apt-get install openhab-addon-binding-astro
-sudo apt-get install openhab-addon-binding-caldav-command
-sudo apt-get install openhab-addon-binding-caldav-personal
 sudo apt-get install openhab-addon-binding-http
-sudo apt-get install openhab-addon-binding-mqtt
+
 sudo apt-get install openhab-addon-binding-networkhealth
 sudo apt-get install openhab-addon-binding-networkupstools
 sudo apt-get install openhab-addon-binding-ntp
 sudo apt-get install openhab-addon-binding-systeminfo
 sudo apt-get install openhab-addon-binding-weather
-sudo apt-get install openhab-addon-io-caldav
 sudo apt-get install openhab-addon-io-dropbox
-sudo apt-get install openhab-addon-persistence-caldav
 sudo apt-get install openhab-addon-persistence-logging
 sudo apt-get install openhab-addon-persistence-mysql
 sudo apt-get install openhab-addon-persistence-rrd4j
