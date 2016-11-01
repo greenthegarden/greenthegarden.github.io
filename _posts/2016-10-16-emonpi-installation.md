@@ -7,7 +7,7 @@ categories: emonPi, energy, monitoring, IoT
 
 The modifications I used to build an emonPi disk.
 
-I plan to utilise my [emonPi](https://openenergymonitor.org/emon/) as the basis of my home automation system. I have struggled with the read-only configuration of the standard build so decided to build from stratch. Not as difficult given instructions at https://github.com/openenergymonitor/emonpi/blob/master/docs/SD-card-build.md. I have started the build using NOOBS LITE Version 2.0.0, on October 15, 2016. However, there were some issues which are captured here:
+I plan to utilise my [emonPi](https://openenergymonitor.org/emon/) as the basis of my home automation system. I have struggled with the read-only configuration of the standard build so decided to build from stratch. Not as difficult given instructions at https://github.com/openenergymonitor/emonpi/blob/master/docs/SD-card-build.md. I have started the build using [NOOBS LITE](https://www.raspberrypi.org/downloads/noobs/) Version 2.0.0, on October 15, 2016. However, there were some issues which are captured here:
 
 * In Section 1, "Change Password", should there be a `sudo`?
 * Ignored Section 2.
@@ -21,6 +21,5 @@ I plan to utilise my [emonPi](https://openenergymonitor.org/emon/) as the basis 
 * In Section 10, command `sudo ln -s /home/pi/emonpi/emonpi/rc.local_jessieminimal /etc/rc.local` should be `sudo ln -s /home/pi/emonpi/rc.local_jessieminimal /etc/rc.local`.
 * Ignored Sections 14, 16-19.
 * For Section 15, used instructions for Java 8 for openHAB installation.
-
 
 See [openHAB install](../openhab-installation) for next steps.

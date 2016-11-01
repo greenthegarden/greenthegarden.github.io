@@ -52,6 +52,12 @@ sudo chown -hR openhab:openhab /etc/openhab
 sudo chown -hR openhab:openhab /usr/share/openhab
 ```
 
+Add pi user to openhab group
+
+```
+sudo usermod -a -G openhab pi
+```
+
 ## Installation of bindings
 
 Installation of bindings uses the following form
@@ -188,13 +194,15 @@ sudo apt-get install mosquitto
 
 The configuration of the `<broker>` needs to be applied in the section `MQTT Transport` of the file `/etc/openhab/configurations/openhab.cfg` to configure the MQTT binding.
 
-If installing on emonpi:
+For example, if installing on emonpi:
 
+```
 mqtt:emonpi.url=tcp://localhost:1883
 mqtt:emonpi.user=emonpi
 mqtt:emonpi.pwd=emonpimqtt2016
 mqtt:emonpi.qos=2
 mqtt:emonpi.retain=false
+```
 
 ### Use
 
@@ -214,7 +222,7 @@ sudo apt-get install openhab-addon-persistence-caldav
 
 ```
 
-###Radicale
+### Radicale
 
 In order to utilise the CalDAV bindings a compible CAlDAV sercver is required for which I have utilised [Radicale Project](http://radicale.org/).
 
@@ -226,7 +234,10 @@ sudo apt-get install radicale
 
 #### Configuration
 
-A good guide to configure radicale is http://jonathantutorial.blogspot.com.au/2014/10/how-to-set-up-radicale.html
+Guides to configure radicale:
+
+* http://jonathantutorial.blogspot.com.au/2014/10/how-to-set-up-radicale.html
+* https://evilshit.wordpress.com/2013/11/19/how-to-install-a-caldav-and-carddav-server-using-radicale/
 
 ##### Run as daemon
 
@@ -234,7 +245,7 @@ Open the file `/etc/radicale/config` and change `#daemon = False` to `daemon = T
 
 To have radicale automatically start open the file `/etc/default/radicale` and uncomment the line `#ENABLE_RADICALE=yes`.
 
-To start radicale use (does not work!!)
+To start radicale use
 
 ```
 sudo /bin/systemctl daemon-reload
@@ -242,22 +253,23 @@ sudo /bin/systemctl enable radicale.service
 sudo /bin/systemctl start radicale.service
 ```
 
-Install apache2-utils to manage users and passwords using
+Not sure why the above does not work, but starts as expected on a reboot.
+
+Test connection using opening the address `http://emonpi:5232` in a browser. If all is good, should show `Radicale works!`.
+
+Add pi user to radicale group using
 
 ```
-sudo apt-get install apache2-utils
+usermod -a -G radicale pi
 ```
+
+### Use
 
 #### Calender creation
 
 Need to create two calenders
-  - openhab, as http://192.168.1.55:5232/openhab/openhab.ics/
-  - history, as http://192.168.1.55:5232/openhab/history.ics/
-
-### Configuration
-
-
-### Use
+  - openhab, as http://emonpi:5232/openhab/openhab.ics/
+  - history, as http://emonpi:5232/openhab/history.ics/
 
 ## MySQL
 
