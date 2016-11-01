@@ -10,6 +10,7 @@ I run [openHAB](http://www.openhab.org/) on a [Raspberry Pi](https://www.raspber
 ## References
 
 I have found the following references to be particularly useful:
+
   * [Getting Started with OpenHAB Home Automation on Raspberry Pi](http://www.makeuseof.com/tag/getting-started-openhab-home-automation-raspberry-pi/)
   * [OpenHAB Beginner’s Guide Part 2: ZWave, MQTT, Rules and Charting](http://www.makeuseof.com/tag/openhab-beginners-guide-part-2-zwave-mqtt-rules-charting/)
 
