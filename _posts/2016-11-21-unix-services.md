@@ -9,9 +9,9 @@ The following is a quick reference for managing services on a UNIX system.
 
 # Information Sources
 
-For a information about services, see [](https://docs.fedoraproject.org/en-US/Fedora/15/html/Deployment_Guide/ch-Services_and_Daemons.html).
+For a information about services, see [https://docs.fedoraproject.org/en-US/Fedora/15/html/Deployment_Guide/ch-Services_and_Daemons.html](https://docs.fedoraproject.org/en-US/Fedora/15/html/Deployment_Guide/ch-Services_and_Daemons.html).
 
-For a discussion about whether to use `systemctl` or `service`, see [](http://unix.stackexchange.com/questions/170068/service-vs-systemctl-scripts-which-to-use).
+For a discussion about whether to use `systemctl` or `service`, see [http://unix.stackexchange.com/questions/170068/service-vs-systemctl-scripts-which-to-use](http://unix.stackexchange.com/questions/170068/service-vs-systemctl-scripts-which-to-use).
 
 # Commands
 
