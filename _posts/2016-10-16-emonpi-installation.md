@@ -20,6 +20,7 @@ I plan to utilise my [emonPi](https://openenergymonitor.org/emon/) as the basis 
 * Ignored Section 7, "Move MySQL database location".
 * In Section 10, command `sudo ln -s /home/pi/emonpi/emonpi/rc.local_jessieminimal /etc/rc.local` should be `sudo ln -s /home/pi/emonpi/rc.local_jessieminimal /etc/rc.local`.
 * In section 13, added mysql port as `sudo ufw allow 3306/tcp`.
+* Granted remote access to MySQL emoncms databases using `GRANT ALL ON emoncms.* TO 'emoncms'@'192.168.1.%' IDENTIFIED BY 'emonpimysql2016'`.
 * Ignored Sections 14, 16-19.
 * For Section 15, used instructions for Java 8 for openHAB installation.
 

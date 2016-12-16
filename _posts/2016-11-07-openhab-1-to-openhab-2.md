@@ -68,6 +68,15 @@ directory mask=0777
 public=no
 ```
 
+Enable samba ports through firewall
+
+```
+sudo ufw allow from 192.168.1.0/24 to any port 137 proto udp
+sudo ufw allow from 192.168.1.0/24 to any port 138 proto udp
+sudo ufw allow from 192.168.1.0/24 to any port 139 proto tcp
+sudo ufw allow from 192.168.1.0/24 to any port 445 proto tcp
+```
+
 # Install Eclipse SmartHome Designer
 
 See instructions at http://docs.openhab.org/installation/designer.html.
