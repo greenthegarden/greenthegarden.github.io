@@ -5,13 +5,13 @@ description: Information about using and configuring MySQL
 categories: mysql
 ---
 
-Tips and tricks for using and configuring MySQL
+Tips and tricks for using and configuring [MySQL](https://www.mysql.com/).
 
 # Configuration
 
 ## Remote Access
 
-The following site provides a good description for setting up MySQL for remote access, (https://support.rackspace.com/how-to/mysql-connect-to-your-database-remotely/)[https://support.rackspace.com/how-to/mysql-connect-to-your-database-remotely/].
+The following site provides a good description for setting up [MySQL](https://www.mysql.com/) for remote access, (https://support.rackspace.com/how-to/mysql-connect-to-your-database-remotely/)[https://support.rackspace.com/how-to/mysql-connect-to-your-database-remotely/].
 
 Note a subnet can be specified by using `user_name@'192.168.1.%'`.
 
@@ -67,3 +67,25 @@ or, for a specific user
 ```
 SHOW GRANTS FOR <'user'>@<'host'>;
 ```
+
+# Copying
+
+To make a copy of a MySQL database use
+
+```
+mysqldump <database> -u user -ppassword > <database_filename>.sql
+```
+
+To copy an SQL file use
+
+```
+mysqladmin create <database>
+mysql <database> -u user -ppassword < <database_filename>.sql
+```
+
+On Unix based systems, MySQL databases are located, by default, at `/var/lib/mysql/<database>'.
+
+Sources:
+
+* [https://dev.mysql.com/doc/refman/5.6/en/mysqldump-copying-database.html](https://dev.mysql.com/doc/refman/5.6/en/mysqldump-copying-database.html)
+* [http://stackoverflow.com/questions/5551301/clone-mysql-database](http://stackoverflow.com/questions/5551301/clone-mysql-database)
