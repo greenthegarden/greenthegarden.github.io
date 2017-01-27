@@ -2,7 +2,7 @@
 layout: post
 title: Unix firewall configuration
 description: Configuration of a Unix firewall
-categories: UPS, NUT
+categories: UNIX, firewall, iptables, ufw
 ---
 
 Configuration of a Unix firewall
