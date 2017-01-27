@@ -22,8 +22,18 @@ Steps I have used:
 *   Run TeXLive installer `sudo ./install-tl`.
 *   Select option `C` and deselect any unwanted packages - mainly languages.
 *   Make sure to set the option for symbolic links, by selecting `O` for options, and `L` for create symlinks in standard directories.
-*   Alternatively use an existing profile, see below, `install-tl --profile=mytexlive.profile`.
-*   Add directory of TexLive binary files to path `PATH=$PATH:/usr/local/`.
+*   Alternatively use an existing profile, see below for an example, `install-tl --profile=mytexlive.profile`.
+*   Add directory of TeX Live binary files to path by creating a new file `/etc/profile.d/texlive2016-env.sh` and adding the following lines:
+
+ ```
+TEXLIVE2016_HOME=/usr/local/texlive/2016/
+TEXLIVE2016_BIN=$TEXLIVE2016_HOME/bin/x86_64-linux
+PATH=$PATH:$TEXLIVE2016_BIN
+TEXLIVE2016_INFO=$TEXLIVE2016_HOME/texmf-dist/doc/info
+INFOPATH=$INFOPATH:$TEXLIVE2016_INFO
+TEXLIVE2016_MAN=$TEXLIVE2016_HOME/texmf-dist/doc/man
+MANPATH=$MANPATH:$TEXLIVE2016_MAN
+ ```
 
 If there are problems try installing from a different mirror. Alternative mirrors can be found at [http://www.ctan.org/mirrors/mirmon](http://www.ctan.org/mirrors/mirmon).
 
@@ -89,14 +99,13 @@ portable 0
 
 # Updating
 
-For examples of how to the TeX Love manager see [http://tug.org/texlive/doc/tlmgr.html#EXAMPLES](http://tug.org/texlive/doc/tlmgr.html#EXAMPLES).
+For examples of how to the [TeX Live manager](https://www.tug.org/texlive/tlmgr.html) see [http://tug.org/texlive/doc/tlmgr.html#EXAMPLES](http://tug.org/texlive/doc/tlmgr.html#EXAMPLES).
 
-*   To update the TeX Live manager use `tlmgr `
+*   To update the TeX Live manager use `tlmgr update --self`
 *   To update all installed LaTeX packages use `tlmgr update --all`.
 
 # GUI
 
-
-The TeX Live manager supports a GUI interface. In order to use it PerlTK must first be installed using `sudo apt-get install perl-tk`.
+The TeX Live manager supports a GUI interface. In order to use it [Perl/Tk](http://search.cpan.org/~ni-s/Tk/pod/UserGuide.pod) must first be installed using `sudo apt-get install perl-tk`.
 
 To utilise the GUI, use the option `--gui` when running the manager, for example `tlmgr --gui`.
