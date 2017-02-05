@@ -16,6 +16,8 @@ Based on instructions at
 * http://wynandbooysen.com/raspberry-pi-ups-server-using-nut.html
 * http://abakalidis.blogspot.com.au/2013/04/using-raspberry-pi-as-ups-server-with.html
 
+## Installation
+
 ```
 sudo apt-get install nut-client nut-server
 ```
@@ -25,6 +27,8 @@ Add nut group to pi user
 ```
 sudo usermod -a -G nut pi
 ```
+
+## Configuration
 
 Note: for a [Synology](http://www.synology.com) NAS to access the nut server specific values need to be set!! See https://tellini.info/2014/09/connecting-a-synology-diskstation-to-a-nut-server/.
 
@@ -158,3 +162,15 @@ Open port to allow remote access, using
 ```
 ssudo ufw allow from 192.168.1.0/24 to any port 3493
 ```
+
+## openHAB2 configuration
+
+For use with openHAB2 install the Network UPS Tools binding.
+
+Add the following settings to file `/etc/openhab2/services/networkupstools.cfg`.
+
+1. UPS device name: ups
+2. UPS server hostname (optional): localhost
+3. UPS server port (optional): 3493
+4. UPS server login (optional): pi
+5. UPS server pass (optional): pi
