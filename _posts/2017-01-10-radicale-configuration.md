@@ -11,7 +11,7 @@ Configuration I use for Radicale, a CalDAV server.
 
 [Radicale Project](http://radicale.org/) provides a CalDAV server capability which I utilise in order to maintain local calenders which everyone in the family can access and hopefully keep in sync with things. I have installed Radicale on a Raspberry Pi v2.
 
-## Installation
+## Installation from pacakge manager
 
 ```
 sudo apt-get install radicale
@@ -22,6 +22,16 @@ Add pi user to radicale group using
 ```
 sudo usermod -a -G radicale pi
 ```
+## Installation via pip
+
+```
+sudo pip install radicale
+```
+
+
+## Installation from git
+
+
 
 ## Configuration
 
