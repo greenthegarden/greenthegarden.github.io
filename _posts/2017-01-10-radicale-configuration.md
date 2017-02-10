@@ -11,35 +11,19 @@ Configuration I use for Radicale, a CalDAV server.
 
 [Radicale Project](http://radicale.org/) provides a CalDAV server capability which I utilise in order to maintain local calenders which everyone in the family can access and hopefully keep in sync with things. I have installed Radicale on a Raspberry Pi v2.
 
-## Installation from pacakge manager
+## Installation from package manager
+
+The version of Radicale installed using apt is 0.9 as of Feb 2017.
 
 ```
 sudo apt-get install radicale
 ```
 
-Add pi user to radicale group using
+Create a radicale user and group which is used to run Radicale. The pi user can be added to the radicale group using
 
 ```
 sudo usermod -a -G radicale pi
 ```
-## Installation via pip
-
-```
-sudo pip install radicale
-```
-
-
-## Installation from git
-
-
-
-## Configuration
-
-Guides to configure radicale:
-
-* http://jonathantutorial.blogspot.com.au/2014/10/how-to-set-up-radicale.html
-* https://evilshit.wordpress.com/2013/11/19/how-to-install-a-caldav-and-carddav-server-using-radicale/
-* http://christian.kuelker.info/doc/radicale/calendars-todo-lists-and-contacts-with-radicale.html
 
 ### Default File and directory locations
 
@@ -51,6 +35,30 @@ Files and Directories:
 * /etc/radicale/ssl (directory) - SSL files
 * /var/log/radicale (directory) - log files
 
+## Installation via pip
+
+Installing via pip will install version 1.1.1, as of Feb 2017.
+
+```
+sudo pip install radicale
+```
+
+## Installation from git
+
+```
+git clone git://github.com/Kozea/Radicale.git
+```
+
+## Configuration
+
+Guides to configure radicale:
+
+* http://jonathantutorial.blogspot.com.au/2014/10/how-to-set-up-radicale.html
+* https://evilshit.wordpress.com/2013/11/19/how-to-install-a-caldav-and-carddav-server-using-radicale/
+* http://christian.kuelker.info/doc/radicale/calendars-todo-lists-and-contacts-with-radicale.html
+* http://gedakc.users.sourceforge.net/display-doc.php?name=android-davdroid-radicale-setup
+
+
 ### Run as daemon
 
 Open the file `/etc/radicale/config` and change `#daemon = False` to `daemon = True`.
@@ -59,6 +67,23 @@ To have radicale automatically start open the file `/etc/default/radicale` and u
 
 
 ### Configure passwords
+
+
+To create users and passwords using htpasswd, edit the radicale configuration file and under `[auth]` change `#type = None` to `type = htpasswd`. Install the `apache2-utils` package if not already installed, using
+
+```
+sudo apt-get install apache2-utils
+```
+
+To create the password file and a new user/password combination use,
+
+```
+sudo mkdir /etc/radicale
+sudo htpasswd -cs /etc/radicale/users <user>
+```
+
+Note the the `-c` argument is used to create the file (in this case /etc/radicale/users). If the file already exists it will be overwrittem.
+
 
 ### Starting
 
