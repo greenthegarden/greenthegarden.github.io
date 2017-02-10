@@ -9,7 +9,7 @@ Configuration I use for Radicale, a CalDAV server.
 
 # Radicale
 
-[Radicale Project](http://radicale.org/) provides a CalDAV server capability which I utilise in order to maintain local calenders which everyone in the family can access and hopefully keep in sync with things. I have installed Radicale on a Raspberry Pi v2.
+[Radicale Project](http://radicale.org/) provides a CalDAV and CardDAV server capability which I utilise in order to maintain local calenders which everyone in the family can access and hopefully keep in sync with things. I have installed Radicale on a Raspberry Pi v2.
 
 ## Installation from package manager
 
@@ -45,7 +45,10 @@ sudo pip install radicale
 
 ## Installation from git
 
+I have elected to install Radicale directly via git in the home directory of pi.
+
 ```
+cd /home/pi
 git clone git://github.com/Kozea/Radicale.git
 ```
 
@@ -58,16 +61,35 @@ Guides to configure radicale:
 * http://christian.kuelker.info/doc/radicale/calendars-todo-lists-and-contacts-with-radicale.html
 * http://gedakc.users.sourceforge.net/display-doc.php?name=android-davdroid-radicale-setup
 
+### Configuration file
+
+#### apt-get
+
+If installed via apt-get, configuration file is at `/etc/radicale/config`.
+
+#### git
+
+If installed via git, the default configuration file `config` is in the git directory. By default, it is required to be copied to `~/.config/radicale/config`, using
+
+```
+cd /home/pi
+mkdir -p .config/radicale
+cp Radicale/config .config/radicale/
+```
 
 ### Run as daemon
 
-Open the file `/etc/radicale/config` and change `#daemon = False` to `daemon = True`.
+Open the config file and change `#daemon = False` to `daemon = True`.
+
+#### apt-get
 
 To have radicale automatically start open the file `/etc/default/radicale` and uncomment the line `#ENABLE_RADICALE=yes`.
 
+#### git
+
+Create a cron job to start automatically.
 
 ### Configure passwords
-
 
 To create users and passwords using htpasswd, edit the radicale configuration file and under `[auth]` change `#type = None` to `type = htpasswd`. Install the `apache2-utils` package if not already installed, using
 
@@ -84,10 +106,17 @@ sudo htpasswd -cs /etc/radicale/users <user>
 
 Note the the `-c` argument is used to create the file (in this case /etc/radicale/users). If the file already exists it will be overwrittem.
 
+To create additional users, users
+
+```
+sudo htpasswd -s /etc/radicale/users <user2>
+```
 
 ### Starting
 
-To start radicale use
+#### apt-get
+
+Use
 
 ```
 sudo /bin/systemctl daemon-reload
@@ -97,7 +126,14 @@ sudo /bin/systemctl start radicale.service
 
 Not sure why the above does not work, but starts as expected on a reboot.
 
+#### git
 
+Use
+
+```
+cd /home/pi
+Radicale/radicale.py
+```
 
 ### Open port
 
@@ -109,7 +145,7 @@ sudo ufw allow from 192.168.1.0/24 to any port 5232
 
 ### Test connection
 
-Test connection using opening the address `http://emonpi:5232` in a browser. If all is good, should show `Radicale works!`.
+Test connection using opening the address `http://192.168.1.XXX:5232` in a browser. If all is good, should show `Radicale works!`.
 
 ## Use
 
@@ -136,10 +172,14 @@ On Android, I use the package [DAVdroid](https://davdroid.bitfire.at/) for provi
 1. Add account
 2. Select `Login with URL and user name`
 3. Enter following settings:
-  4. Base URL: http://192.168.1.52:5232/radicale/openhab/
+  4. Base URL: http://192.168.1.51:5232
   5. User name: openhab
   6. Password: openhab
-  7. Create account: openHAB
+  7. Create account: openHAB@radicale
+
+In step 7, need to ensure account name is in the form of an email address, otherwise accounts with not work within Android.
+
+When creating calendars and address books with DAVdroid the associated folders have randomly generated names, which makes them hard to distinguish from each other.
 
 ## openHAB configuration
 
