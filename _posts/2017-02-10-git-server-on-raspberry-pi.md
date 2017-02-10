@@ -1,4 +1,4 @@
---
+---
 layout: post
 title: Git Server Configuration
 description: Configuration for a Git server on a Raspberry Pi.
@@ -29,9 +29,11 @@ Create a dedicated git user to keep repositories from where they may be accident
 sudo adduser git
 ```
 
-## Create repositories
+# Create repositories
 
 For each repository required follow the following steps:
+
+## Server
 
 ### Create repository
 
@@ -49,6 +51,8 @@ Create a bare git repository in the directory, using
 cd repositories/radicale/collections.git
 git init --bare
 ```
+
+## Local system
 
 ### Initialising the local repository
 
