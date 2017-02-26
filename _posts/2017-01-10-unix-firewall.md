@@ -9,7 +9,7 @@ Configuration of a Unix firewall
 
 # iptables
 
-A good guide is available at [http://www.howtogeek.com/177621/the-beginners-guide-to-iptables-the-linux-firewall/].
+A good guide is available at [http://www.howtogeek.com/177621/the-beginners-guide-to-iptables-the-linux-firewall/](http://www.howtogeek.com/177621/the-beginners-guide-to-iptables-the-linux-firewall/).
 
 Current configuration of firewall found by using
 
@@ -25,7 +25,7 @@ sudo iptables -L -n
 
 # Configuration with ufw
 
-Configuration undertaken with tool `ufw`. A good guide is at [https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands].
+Configuration undertaken with tool `ufw`. A good guide is at [https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands](https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands).
 
 If `ufw` is not installed, install using
 
