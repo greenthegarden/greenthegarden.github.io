@@ -25,13 +25,28 @@ sudo iptables -L -n
 
 # Configuration with ufw
 
-Configuration undertaken with tool `ufw`. A good guide is at [https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands](https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands).
+Configuration undertaken with tool `ufw`. Good guides are
+*   [https://help.ubuntu.com/community/UFW](https://help.ubuntu.com/community/UFW)
+*   [https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands](https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands).
+
+## Getting Started
 
 If `ufw` is not installed, install using
 
 ```
 sudo apt-get install ufw
 ```
+
+To get started, using a remote connection, need to ensure ssh port is kept open, therefore [the following](https://wiki.ubuntu.com/UncomplicatedFirewall) should be used,
+
+```
+$ sudo ufw allow ssh/tcp
+$ sudo ufw logging on
+$ sudo ufw enable
+$ sudo ufw status
+```
+
+## Configuration Tips
 
 Too allow access via a specific port, use
 
