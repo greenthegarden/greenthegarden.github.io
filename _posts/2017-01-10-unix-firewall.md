@@ -9,7 +9,7 @@ Configuration of a Unix firewall
 
 # iptables
 
-A good guide is available at http://www.howtogeek.com/177621/the-beginners-guide-to-iptables-the-linux-firewall/.
+A good guide is available at [http://www.howtogeek.com/177621/the-beginners-guide-to-iptables-the-linux-firewall/].
 
 Current configuration of firewall found by using
 
@@ -23,9 +23,15 @@ To list configuration with numerical values, use
 sudo iptables -L -n
 ```
 
-# Configuration
+# Configuration with ufw
 
-Configuration undertaken with tool `ufw`. A good guide is at https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands.
+Configuration undertaken with tool `ufw`. A good guide is at [https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands].
+
+If `ufw` is not installed, install using
+
+```
+sudo apt-get install ufw
+```
 
 Too allow access via a specific port, use
 
@@ -55,30 +61,29 @@ ACCEPT     udp  --  192.168.1.0/24       anywhere             udp dpt:<port>
 
 # Rules that I use
 
-
 ## SSH
 
 ```
-sudo ufw allow 22
+sudo ufw allow from 192.168.1.0/24 to any port 22
 ```
 
 ## HTTP
 
 ```
-sudo ufw allow 80
-sudo ufw allow 8080
+sudo ufw allow from 192.168.1.0/24 to any port 80
+sudo ufw allow from 192.168.1.0/24 to any port 8080
 ```
 
 ## HTTPS
 
 ```
-sudo ufw allow 443
+sudo ufw allow from 192.168.1.0/24 to any port 443
 ```
 
 ## MYSQL
 
 ```
-sudo ufw allow 3306
+sudo ufw allow from 192.168.1.0/24 to any port 3306
 ```
 
 ## Samba
