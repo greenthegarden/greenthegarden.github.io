@@ -11,11 +11,19 @@ Tips and tricks for using and configuring [MySQL](https://www.mysql.com/).
 
 ## Remote Access
 
-The following site provides a good description for setting up [MySQL](https://www.mysql.com/) for remote access, (https://support.rackspace.com/how-to/mysql-connect-to-your-database-remotely/)[https://support.rackspace.com/how-to/mysql-connect-to-your-database-remotely/].
+The following site provides a good description for setting up [MySQL](https://www.mysql.com/) for remote access, [https://support.rackspace.com/how-to/mysql-connect-to-your-database-remotely/](https://support.rackspace.com/how-to/mysql-connect-to-your-database-remotely/).
 
 Note a subnet can be specified by using `user_name@'192.168.1.%'`.
 
 Remember to run `FLUSH PRIVILEGES;` after changing privileges.
+
+To grant external access to all databases as root use:
+
+```
+mysql -uroot
+GRANT ALL TO root@'192.168.1.%' IDENTIFIED BY '';
+ FLUSH PRIVILEGES;
+```
 
 # Status
 
@@ -87,5 +95,5 @@ On Unix based systems, MySQL databases are located, by default, at `/var/lib/mys
 
 Sources:
 
-* [https://dev.mysql.com/doc/refman/5.6/en/mysqldump-copying-database.html](https://dev.mysql.com/doc/refman/5.6/en/mysqldump-copying-database.html)
-* [http://stackoverflow.com/questions/5551301/clone-mysql-database](http://stackoverflow.com/questions/5551301/clone-mysql-database)
+*   [https://dev.mysql.com/doc/refman/5.6/en/mysqldump-copying-database.html](https://dev.mysql.com/doc/refman/5.6/en/mysqldump-copying-database.html)
+*   [http://stackoverflow.com/questions/5551301/clone-mysql-database](http://stackoverflow.com/questions/5551301/clone-mysql-database)
