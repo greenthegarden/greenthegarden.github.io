@@ -21,8 +21,8 @@ To grant external access to all databases as root use:
 
 ```
 mysql -uroot
-GRANT ALL TO root@'192.168.1.%' IDENTIFIED BY '';
- FLUSH PRIVILEGES;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.1.%' IDENTIFIED BY '' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
 ```
 
 # Status
