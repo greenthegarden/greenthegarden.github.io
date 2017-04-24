@@ -1,31 +1,15 @@
 ---
 layout: post
-title: Radicale configuration
-description: Configuration for Radicale, a CalDAV server.
+title: Radicale2 configuration
+description: Configuration for Radicale2, a CalDAV server.
 categories: Radicale, CalDAV, CardDAV
 ---
 
-Configuration I use for Radicale, a CalDAV server.
+Configuration I use for Radicale2, a CalDAV server.
 
 # Radicale
 
 [Radicale Project](http://radicale.org/) provides a CalDAV and CardDAV server capability which I utilise in order to maintain local calenders which everyone in the family can access and hopefully keep in sync with things. I have installed Radicale on a Raspberry Pi v2.
-
-## Installation from package manager
-
-The version of Radicale installed using apt is 0.9 as of Feb 2017.
-
-```
-sudo apt-get install radicale
-```
-
-Create a radicale user and group which is used to run Radicale. The pi user can be added to the radicale group using
-
-```
-sudo usermod -a -G radicale pi
-```
-
-### Default File and directory locations
 
 Files and Directories:
 *   /etc/default/radicale (file) - startup settings
@@ -44,22 +28,35 @@ cd /home/pi
 git clone git://github.com/Kozea/Radicale.git
 ```
 
-### Default File and directory locations
+### Configuration
 
-If installed via git, the default configuration file `config` is in the git directory. By default, it is required to be copied to `~/.config/radicale/config`, using
+Move the configuration files to /etc/radicale/ and set ownership.
 
 ```
-cd /home/pi
-mkdir -p .config/radicale
-cp Radicale/config .config/radicale/
+sudo mkdir -p /etc/radicale
+sudo chown -R pi:pi /etc/radicale
+cp Radicale/config /etc/radicale/
+cp Radicale/logging /etc/radicale/
 ```
 
-Files and Directories:
-*   .config/radicale/config (file) - configuration file
-*   /etc/radicale/users (file) - your htpasswd file storing your usernames and passwords
-*   .config/radicale/collections (directory) - radicale library, find the iCalendar files in collections directory here
-*   /etc/radicale/ssl (directory) - SSL files
-*   /var/log/radicale (directory) - log files
+### Logging
+
+Create logging file and set ownership.
+
+```
+sudo touch /var/log/radicale
+sudo chown pi:pi /var/log/radicale
+```
+
+### Create collection directory
+
+Create collection directory and set ownership.
+
+```
+sudo mkdir -p /var/lib/radicale/collections
+sudo chown -R pi:pi /var/lib/radicale
+```
+
 
 ## Configuration
 
