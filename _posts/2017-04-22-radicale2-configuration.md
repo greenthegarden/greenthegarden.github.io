@@ -28,15 +28,26 @@ cd /home/pi
 git clone git://github.com/Kozea/Radicale.git
 ```
 
+### Radicale user and group
+
+Make radicale user and group
+
+```
+sudo adduser --system --no-create-home --group radicale
+sudo usermod -a -G radicale pi
+```
+
+
 ### Configuration
 
-Move the configuration files to /etc/radicale/ and set ownership.
+Move the configuration files to /etc/radicale/ and set ownership and permissions.
 
 ```
 sudo mkdir -p /etc/radicale
-sudo chown -R pi:pi /etc/radicale
 cp Radicale/config /etc/radicale/
 cp Radicale/logging /etc/radicale/
+sudo chown -R radicale:radicale /etc/radicale
+sudo chmod -R g+rw /etc/radicale
 ```
 
 ### Logging
@@ -45,16 +56,28 @@ Create logging file and set ownership.
 
 ```
 sudo touch /var/log/radicale
-sudo chown pi:pi /var/log/radicale
+sudo chown radicale:radicale /var/log/radicale
+sudo chmod -R g+rw /var/log/radicale
 ```
 
 ### Create collection directory
 
 Create collection directory and set ownership.
 
+On a standard pi, use
+
+
 ```
 sudo mkdir -p /var/lib/radicale/collections
-sudo chown -R pi:pi /var/lib/radicale
+sudo chown -R radicale:radicale /var/lib/radicale
+sudo chmod -R g+rw /var/lib/radicale
+```
+On emonpi, use
+
+```
+sudo mkdir -p /home/pi/data/radicale/collections
+sudo chown -R radicale:radicale/home/pi/data/radicale
+sudo chmod -R g+rw /home/pi/data/radicale
 ```
 
 
@@ -72,14 +95,6 @@ Guides to configure radicale:
 ### Run as daemon
 
 Open the config file and change `#daemon = False` to `daemon = True`.
-
-#### apt-get
-
-To have radicale automatically start open the file `/etc/default/radicale` and uncomment the line `#ENABLE_RADICALE=yes`.
-
-#### git
-
-Create a cron job to start automatically.
 
 ### Configure passwords
 

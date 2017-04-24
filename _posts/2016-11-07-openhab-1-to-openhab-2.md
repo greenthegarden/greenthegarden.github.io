@@ -97,6 +97,27 @@ sudo systemctl daemon-reload
 sudo systemctl enable openhab2.service
 ```
 
+# Install directories
+
+##Configurations
+
+```
+/etc/openhab2/
+```
+
+## Addons
+
+```
+/usr/share/openhab2/addons/
+```
+
+## Userdata
+
+```
+/var/lib/openhab2/
+```
+
+
 # Congfiguration
 
 Open brower and go to http://emonpi:8080/.
