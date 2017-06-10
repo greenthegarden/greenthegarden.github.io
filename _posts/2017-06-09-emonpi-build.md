@@ -13,7 +13,7 @@ I plan to utilise my [emonPi](https://openenergymonitor.org/emon/) as the basis 
 
 ### Disk Image
 
-The base disk image I have used is [emonSD-07Nov16 BETA](https://community.openenergymonitor.org/t/emonsd-07nov16-release-tada/2137) which I flashed to a 16MB DS card using []().
+The base disk image I have used is [emonSD-07Nov16 BETA](https://community.openenergymonitor.org/t/emonsd-07nov16-release-tada/2137) which I flashed to a 16MB SD card using []().
 
 ### Expand file system
 
@@ -22,6 +22,16 @@ Use the utility provided to expand the file system to fit storage capacity
 ```
 emonSDExpand
 ```
+
+Check storage using
+
+```
+df -h
+```
+
+### Configure
+
+Use `sudo raspi-config` and ensure time-zone is set correctly.
 
 ### Updates
 
@@ -42,6 +52,72 @@ sudo systemctl disable openhab.service
 sudo systemctl disable nodered.service
 ```
 
+### Install samba
+
+Install using
+
+```
+sudo apt-get install samba samba-common-bin
+```
+
+#### Configuration
+
+Edit the file `/etc/samba/smb.conf` to make the following changes.
+
+##### Enable wins support
+
+Change `# wins support = no` to `wins support = yes`.
+
+##### Enable symbolic link support
+
+Add the following lines, under `[global]`
+
+```
+follow symlinks = yes
+wide links = yes
+```
+
+Comment out (place `;` at start of line) all references to printers.
+
+##### Share openhab folders
+
+Add the following lines to the end of the file to share the specified directories.
+
+Share home directories by uncommenting relevant lines and set permission masks to 775.
+
+Share openhab related directories:
+
+```
+[OpenHAB Config]
+comment= openHAB Site Config
+valid users = @openhab
+path=/etc/openhab2
+browseable=Yes
+writeable=Yes
+only guest=no
+create mask=0775
+directory mask=0775
+public=no
+```
+
+Set passwords for pi and openhab user
+
+```
+sudo smbpasswd -a pi
+sudo smbpasswd -a openhab
+```
+
+Restart samba
+
+```
+sudo /bin/systemctl restart smbd.service
+```
+
+Open port to enable access to the server use
+
+```
+sudo ufw allow proto tcp from 192.168.1.0/24 to any port 445
+```
 
 ### Install pip3
 
@@ -125,7 +201,7 @@ crontab -e
 
 See instructions at  to install and configure nut server.
 
-Add pi user nut group
+Add pi user to nut group
 
 ```
 sudo usermod -a -G nut pi
@@ -148,7 +224,7 @@ sudo apt-get update
 sudo apt-get install openhab2
 ```
 
-Add pi user openhab group
+Add pi user to openhab group
 
 ```
 sudo usermod -a -G openhab pi
@@ -164,7 +240,25 @@ sudo chown -R openhab:openhab openhab2
 sudo chmod -R g+rw openhab2
 ```
 
-
-
-
 The following changes are required to support the read-only filesystem.
+
+```
+mv /var/lib/openhab2 data/
+cd /var/lib
+ln -s /home/pi/data/openhab2
+```
+
+```
+mkdir -p data/log
+mv /var/log/opehab2 data/log
+cd /var/log
+ln -s /home/pi/data/log/openhab2
+```
+
+Prevent logging of events
+
+```
+vi /var/lib/openhab2/etc/org.ops4j.pax.logging.cfg
+```
+
+Remove `event` from the line `log4j.logger.smarthome.event = INFO, event, osgi:*`.
