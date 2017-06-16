@@ -262,3 +262,11 @@ vi /var/lib/openhab2/etc/org.ops4j.pax.logging.cfg
 ```
 
 Remove `event` from the line `log4j.logger.smarthome.event = INFO, event, osgi:*`.
+
+COnfigure mysql
+
+If using mysql for perisistence, need to create account for openhab
+
+```
+
+```
