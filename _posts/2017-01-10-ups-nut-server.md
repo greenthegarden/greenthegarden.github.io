@@ -6,15 +6,15 @@ categories: UPS, NUT
 ---
 
 Configuration for a UPS NUT server
-
+e6
 # UPS NUT Server configuration
 
 ##  Network UPS tools
 
 Based on instructions at
 
-* http://wynandbooysen.com/raspberry-pi-ups-server-using-nut.html
-* http://abakalidis.blogspot.com.au/2013/04/using-raspberry-pi-as-ups-server-with.html
+*   <http://wynandbooysen.com/raspberry-pi-ups-server-using-nut.html>
+*   <http://abakalidis.blogspot.com.au/2013/04/using-raspberry-pi-as-ups-server-with.html>
 
 ## Installation
 
@@ -30,7 +30,7 @@ sudo usermod -a -G nut pi
 
 ## Configuration
 
-Note: for a [Synology](http://www.synology.com) NAS to access the nut server specific values need to be set!! See https://tellini.info/2014/09/connecting-a-synology-diskstation-to-a-nut-server/.
+Note: for a [Synology](http://www.synology.com) NAS to access the nut server specific values need to be set!! See <https://tellini.info/2014/09/connecting-a-synology-diskstation-to-a-nut-server/>.
 
 Set up the driver for the nut server by adding the following lines to the file `/etc/nut/ups.conf`. To support a Synology NAS the name must be `ups`.
 

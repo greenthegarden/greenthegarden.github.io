@@ -87,10 +87,10 @@ sudo chmod -R g+rw /home/pi/data/radicale
 
 Guides to configure radicale:
 
-*   http://jonathantutorial.blogspot.com.au/2014/10/how-to-set-up-radicale.html
-*   https://evilshit.wordpress.com/2013/11/19/how-to-install-a-caldav-and-carddav-server-using-radicale/
-*   http://christian.kuelker.info/doc/radicale/calendars-todo-lists-and-contacts-with-radicale.html
-*   http://gedakc.users.sourceforge.net/display-doc.php?name=android-davdroid-radicale-setup
+*   <http://jonathantutorial.blogspot.com.au/2014/10/how-to-set-up-radicale.html>
+*   <https://evilshit.wordpress.com/2013/11/19/how-to-install-a-caldav-and-carddav-server-using-radicale/>
+*   <http://christian.kuelker.info/doc/radicale/calendars-todo-lists-and-contacts-with-radicale.html>
+*   <http://gedakc.users.sourceforge.net/display-doc.php?name=android-davdroid-radicale-setup>
 
 ### Run as daemon
 
@@ -165,7 +165,7 @@ On Android, I use the package [DAVdroid](https://davdroid.bitfire.at/) for provi
 1.  Add account
 2.  Select `Login with URL and user name`
 3.  Enter following settings:
-4.  Base URL: http://192.168.1.51:5232
+4.  Base URL: <http://192.168.1.51:5232>
 5.  User name: <user>
 6.  Password: <password>
 7.  Create account: <user>@radicale.piology
