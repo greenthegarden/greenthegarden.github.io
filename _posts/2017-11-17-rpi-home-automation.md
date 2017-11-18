@@ -72,10 +72,8 @@ sudo chmod +x /usr/local/bin/docker-compose
 # Create home-automation directories
 
 ```
-mkdir ~/home-automation
-mkdir -p ~/home-automation/radicale/data
-mkdir ~/home-automation/openhab
-mkdir ~/home-automation/openhab/user_data
+cd ~
+git clone http://192.168.1.30/docker/rpi/home-automation.git
 ```
 
 # Install docker build archives
@@ -96,6 +94,12 @@ cd portainer && chmod +x docker_run.sh
 
 ## Install Radicale
 
+Create directory to store data
+
+```
+mkdir -p ~/home-automation/radicale/data
+```
+
 ```
 git clone http://192.168.1.30/docker/rpi/radicale.git
 cd radicale && chmod +x *.sh
@@ -107,19 +111,69 @@ Test using http://192.168.1.1:5232
 
 login with openhab
 
+create 2 calenders
+
+controller
+irrigation
 
 
 ## Install openHAB2
 
-```
-git clone http://192.168.1.30/docker/rpi/openHAB2.git
+See http://docs.openhab.org/installation/docker.html
 
-cd ~/home-automation/openhab
-git clone http://192.168.1.30/home-automation/openHAB2/conf
-cd radicale && chmod +x *.sh
-./docker_build.sh
+https://hub.docker.com/r/openhab/openhab/
+
+Create openhab user
+
+```
+sudo groupadd -g 9001 openhab
+sudo useradd -u 9001 -g openhab -r -s /sbin/nologin openhab
+sudo usermod -a -G openhab pi
+```
+
+logout and log back in to join group.
+
+Create required directories
+
+```
+mkdir ~/home-automation/openhab
+mkdir -p ~/home-automation/openhab/addons
+mkdir -p ~/home-automation/openhab/conf
+mkdir -p ~/home-automation/openhab/userdata
+sudo chown -R openhab:openhab ~/home-automation/openhab
+sudo chmod -R g+w ~/home-automation/openhab
+```
+
+Install openHAB2
+
+```
+cd ~/docker
+git clone http://192.168.1.30/docker/rpi/openHAB2.git
+cd openHAB2 && chmod +x *.sh
 ./docker_run.sh
 ```
 
+Check installation
+
+http://192.168.1.1:8080
+
+
+Install configuration
+
+```
+cd ~/home-automation/openhab
+git clone http://192.168.1.30/home-automation/openHAB2/conf.git
+sudo chown -R openhab:openhab conf
+sudo chmod -R g+w conf
+```
+configure calenders in servicces/caldavio.cfg
 
 ## Install emqtt
+
+```
+cd ~/docker
+git clone http://192.168.1.30/docker/rpi/emqttd.git
+cd emqttd && chmod +x *.sh
+git clone -b master https://github.com/emqtt/emq_docker.git
+./docker_build.sh
+```
