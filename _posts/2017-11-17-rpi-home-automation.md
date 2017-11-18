@@ -40,6 +40,15 @@ Edit `/boot/config.txt` and add the line
 gpu_mem=16
 ```
 
+Configure
+hostname
+timezne
+expand file system
+
+```
+sudo rasp-config
+```
+
 Run the following
 
 ```
@@ -69,12 +78,6 @@ sudo curl -L --fail https://github.com/docker/compose/releases/download/1.17.0/r
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
-# Create home-automation directories
-
-```
-cd ~
-git clone http://192.168.1.30/docker/rpi/home-automation.git
-```
 
 # Install docker build archives
 
@@ -97,7 +100,7 @@ cd portainer && chmod +x docker_run.sh
 Create directory to store data
 
 ```
-mkdir -p ~/home-automation/radicale/data
+mkdir -p ~/radicale/data
 ```
 
 ```
@@ -116,6 +119,24 @@ create 2 calenders
 controller
 irrigation
 
+TO connect to calendars in DAVdroid
+
+1. Select 'Login with URL and user name'
+2. Enter
+  1. Base URL: http://192.168.1.1:5232
+  2. Username: openhab
+  3. Password: openhab
+4. Set account name to openhab@radicale2.openhab
+
+## Install emqtt
+
+```
+cd ~/docker
+git clone http://192.168.1.30/docker/rpi/emqttd.git
+cd emqttd && chmod +x *.sh
+git clone -b master https://github.com/emqtt/emq_docker.git
+./docker_build.sh
+```
 
 ## Install openHAB2
 
@@ -136,12 +157,12 @@ logout and log back in to join group.
 Create required directories
 
 ```
-mkdir ~/home-automation/openhab
-mkdir -p ~/home-automation/openhab/addons
-mkdir -p ~/home-automation/openhab/conf
-mkdir -p ~/home-automation/openhab/userdata
-sudo chown -R openhab:openhab ~/home-automation/openhab
-sudo chmod -R g+w ~/home-automation/openhab
+mkdir ~/openhab
+mkdir -p ~/openhab/addons
+mkdir -p ~/openhab/conf
+mkdir -p ~/openhab/userdata
+sudo chown -R openhab:openhab ~/openhab
+sudo chmod -R g+w ~/openhab
 ```
 
 Install openHAB2
@@ -166,14 +187,22 @@ git clone http://192.168.1.30/home-automation/openHAB2/conf.git
 sudo chown -R openhab:openhab conf
 sudo chmod -R g+w conf
 ```
-configure calenders in servicces/caldavio.cfg
+configure calenders in ~/openhab/conf/services/caldavio.cfg
+ensure mqtt details are correct in ~/openhab/conf/services/mqtt.cfg
 
-## Install emqtt
+Start openhab
+
+```
+cd ~/docker/openHAB2
+./docker_run.sh
+```
+
+
+Install home-automation docker-compose files
 
 ```
 cd ~/docker
-git clone http://192.168.1.30/docker/rpi/emqttd.git
-cd emqttd && chmod +x *.sh
-git clone -b master https://github.com/emqtt/emq_docker.git
-./docker_build.sh
+git clone http://192.168.1.30/docker/rpi/home-automation.git
 ```
+
+Configure uuid and secret for openhabcloud
