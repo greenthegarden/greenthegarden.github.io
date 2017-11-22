@@ -5,7 +5,9 @@ description:
 categories: RPi, home automation, docker, openHAB, radicale,
 ---
 
-# Install Raspbian
+# Home Automation on RPi
+
+## Install Raspbian
 
 Download latest version of Raspbian Lite from https://www.raspberrypi.org/downloads/raspbian/.
 
@@ -13,7 +15,27 @@ See the following to enable ssh https://www.raspberrypi.org/documentation/remote
 
 To find IP address see https://www.raspberrypi.org/documentation/remote-access/ip-address.md.
 
-# Update
+## Configure RPi
+
+Configure the following items using
+
+```
+sudo rasp-config
+```
+
+- expand file system
+- hostname: set to openhab
+- timezone: set to Adelaide
+- GPU memory: set to 16MB
+
+Configure cgroup memory by adding `cgroup_memory=1` using
+
+```
+sudo vi /boot/cmdline.txt
+```
+
+
+## Update RPi
 
 Update base OS using
 
@@ -22,32 +44,36 @@ sudo apt-get update
 sudo apt-get upgrade
 ```
 
-Reboot to finish upgrade using `sudo reboot`.
+<!-- ```
+apt-get -y install cgroupfs-mount
+``` -->
 
-# Install git
+Reboot to finish upgrade using
+
+```
+sudo reboot
+```
+
+## Git
+
+Install using
 
 ```
 sudo apt-get install git
 ```
 
-# Install docker
-
-See https://www.raspberrypi.org/blog/docker-comes-to-raspberry-pi/ and https://blog.alexellis.io/getting-started-with-docker-on-raspberry-pi/.
-
-Edit `/boot/config.txt` and add the line
+Configure with
 
 ```
-gpu_mem=16
+git config --global user.email "greenthegarden@gmail.com"
+git config --global user.name "Philip Cutler"
 ```
 
-Configure
-hostname
-timezne
-expand file system
+## Install docker
 
-```
-sudo rasp-config
-```
+See
+- https://www.raspberrypi.org/blog/docker-comes-to-raspberry-pi/
+- https://blog.alexellis.io/getting-started-with-docker-on-raspberry-pi/
 
 Run the following
 
@@ -55,7 +81,7 @@ Run the following
 curl -sSL https://get.docker.com | sh
 ```
 
-Run the following to configure docker to start automatically and add pi user to docker group
+Run the following to add pi user to docker group and configure docker to start automatically
 
 ```
 sudo usermod -aG docker pi
@@ -69,23 +95,44 @@ Test install by running
 docker run -ti arm32v6/alpine:latest /bin/sh
 ```
 
-Install docker-compose using a container
+## Install docker-compose
 
-See https://docs.docker.com/compose/install/#install-as-a-container
+There are multiple ways to install docker compose.
+
+See
+- https://docs.docker.com/compose/install
+- https://www.berthon.eu/2017/getting-docker-compose-on-raspberry-pi-arm-the-easy-way/
+
+### Container
+
+Not sure if this works on RPi.
+
+See
+- https://docs.docker.com/compose/install/#install-as-a-container
 
 ```
 sudo curl -L --fail https://github.com/docker/compose/releases/download/1.17.0/run.sh -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
+### Pip
 
-# Install docker build archives
+See
+- https://docs.docker.com/compose/install/#install-using-pip
+
+```
+wget https://bootstrap.pypa.io/get-pip.py
+sudo python get-pip.py
+sudo pip2 install docker-compose --upgrade
+```
+
+## Install docker build archives
 
 ```
 mkdir ~/docker && cd ~/docker
 ```
 
-## Install Portainer
+### Portainer
 
 See https://portainer.io/install.html for details
 
@@ -95,7 +142,7 @@ cd portainer && chmod +x docker_run.sh
 ./docker_run.sh
 ```
 
-## Install Radicale
+### Install Radicale
 
 Create directory to store data
 
@@ -112,14 +159,17 @@ cd radicale && chmod +x *.sh
 
 Test using http://192.168.1.1:5232
 
-login with openhab
+#### Create calendars
 
-create 2 calenders
+Open http://192.168.1.1:5232 an login with user `openhab`.
 
-controller
-irrigation
+Create 2 calenders
+- controller
+- irrigation
 
-TO connect to calendars in DAVdroid
+#### DAVdroid connection
+
+To connect to calendars in DAVdroid
 
 1. Select 'Login with URL and user name'
 2. Enter
@@ -128,23 +178,25 @@ TO connect to calendars in DAVdroid
   3. Password: openhab
 4. Set account name to openhab@radicale2.openhab
 
-## Install emqtt
+## Erlang MQTT Broker
+
+See
+- https://github.com/emqtt/emq-docker
 
 ```
 cd ~/docker
 git clone http://192.168.1.30/docker/rpi/emqttd.git
 cd emqttd && chmod +x *.sh
-git clone -b master https://github.com/emqtt/emq_docker.git
 ./docker_build.sh
 ```
 
-## Install openHAB2
+## openHAB2
 
-See http://docs.openhab.org/installation/docker.html
+See
+- http://docs.openhab.org/installation/docker.html
+- https://hub.docker.com/r/openhab/openhab/
 
-https://hub.docker.com/r/openhab/openhab/
-
-Create openhab user
+### Create openhab user
 
 ```
 sudo groupadd -g 9001 openhab
@@ -152,9 +204,9 @@ sudo useradd -u 9001 -g openhab -r -s /sbin/nologin openhab
 sudo usermod -a -G openhab pi
 ```
 
-logout and log back in to join group.
+Logout and log back in to join group.
 
-Create required directories
+### Create required directories
 
 ```
 mkdir ~/openhab
@@ -165,7 +217,7 @@ sudo chown -R openhab:openhab ~/openhab
 sudo chmod -R g+w ~/openhab
 ```
 
-Install openHAB2
+### Install openHAB2
 
 ```
 cd ~/docker
@@ -174,35 +226,44 @@ cd openHAB2 && chmod +x *.sh
 ./docker_run.sh
 ```
 
-Check installation
+### Check installation
 
-http://192.168.1.1:8080
+Open http://192.168.1.1:8080
 
 
-Install configuration
+### Install configuration
 
 ```
-cd ~/home-automation/openhab
+cd ~/openhab
+rm -rf conf
 git clone http://192.168.1.30/home-automation/openHAB2/conf.git
 sudo chown -R openhab:openhab conf
 sudo chmod -R g+w conf
 ```
-configure calenders in ~/openhab/conf/services/caldavio.cfg
-ensure mqtt details are correct in ~/openhab/conf/services/mqtt.cfg
 
-Start openhab
+Ensure the following before starting openHAB
+- calenders correctly configured in `~/openhab/conf/services/caldavio.cfg`
+- mqtt details are correct in `~/openhab/conf/services/mqtt.cfg`
+
+Configure uuid and secret for openhabcloud at openhab.org
+
+### Run openHAB
 
 ```
 cd ~/docker/openHAB2
 ./docker_run.sh
 ```
 
-
-Install home-automation docker-compose files
+## Install home-automation docker-compose files
 
 ```
 cd ~/docker
 git clone http://192.168.1.30/docker/rpi/home-automation.git
 ```
 
-Configure uuid and secret for openhabcloud
+## Uninstalling docker
+
+```
+sudo apt-get purge docker-ce
+sudo rm -rf /var/lib/docker
+```
