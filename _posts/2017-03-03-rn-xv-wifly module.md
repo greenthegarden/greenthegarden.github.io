@@ -100,5 +100,6 @@ $$$
 set wlan ssid <my_ssid>
 set wlan phrase <my_password>
 set wlan join 1
+save
 reboot
 ```
