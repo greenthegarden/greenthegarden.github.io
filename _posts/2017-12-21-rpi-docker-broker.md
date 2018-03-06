@@ -17,6 +17,8 @@ To find IP address see https://www.raspberrypi.org/documentation/remote-access/i
 
 ## Configure RPi
 
+TO fix the local issue edit the file '/etc/ssh/sshd_config' and comment out the line 'AcceptEnv LANG LC_*'.
+
 Configure the following items using
 
 ```
